@@ -1,0 +1,337 @@
+
+\usepackage{ifthen}
+
+\usepackage{tikz}
+\usetikzlibrary{hobby,calc,shapes, positioning, backgrounds,trees,
+  decorations, decorations.markings, decorations.pathmorphing, arrows,
+  shapes.geometric, snakes}
+
+
+\usepackage{xparse}
+
+
+\tikzset{
+    photon/.style={
+        decoration={completed sines, amplitude=3pt, number of sines=3},
+        decorate    
+    },
+    p/.style={
+      photon
+    },
+    wboson/.style={
+      photon
+      % decoration={complete sines, amplitude=0.15cm, segment length=0.2cm},
+      % decorate  
+    },
+    w/.style={
+      wboson
+    },
+    zboson/.style={
+      photon
+      % decoration={complete sines, amplitude=0.15cm, segment length=0.2cm},
+      % decorate    
+      
+    },
+    z/.style={
+      zboson
+    },
+    higgs/.style={
+      dotted  
+    },
+    h/.style={
+      higgs
+    },
+    fermion/.style={
+        decoration={
+            markings,
+            mark=at position 0.5 with {\node[transform shape, xshift=-0.5mm, fill=black, inner sep=1pt, draw, isosceles triangle]{};}
+        },
+        postaction=decorate
+    },
+    f/.style={
+      fermion
+    },
+    gluon/.style={
+      decoration={coil, aspect=0.75, mirror, segment length=1.5mm},
+      decorate
+    }, 
+    g/.style={
+      gluon
+    },
+    graviton/.style={
+      double,
+      decoration={coil, aspect=0.75, mirror, segment length=1.5mm},
+      decorate
+    }, 
+    G/.style={
+      graviton
+    },
+    left/.style={
+        bend left=90,
+        looseness=1.75
+    },
+    loop/.style={
+      left
+    },
+    l/.style={
+      loop
+    },
+    sl/.style={
+    },
+    vertex/.style={draw,shape=circle,fill=black,minimum size=3pt,inner sep=0pt},
+  }
+
+
+\long\def\ifnodedefined#1#2#3{%%
+  \@ifundefined{pgf@sh@ns@#1}{#3}{#2}}
+
+\newcommand\aeundefinenode[1]{%%
+  \expandafter\ifx\csname pgf@sh@ns@#1\endcsname\relax
+  \else
+    \global\expandafter\let\csname pgf@sh@ns@#1\endcsname\relax
+  \fi
+}
+
+\newcommand\aeundefinethesenodes[1]{%%
+  \foreach \myn  in #1
+    {%%
+      \expandafter\aeundefinenode\expandafter{\myn}%%
+    }%%
+}
+
+\DeclareDocumentCommand \tfnodeleft {m}
+  {
+    \node (#1) [above = of \lastnode] {};
+    \def\lastnode{#1}
+  }
+
+
+\DeclareDocumentCommand \tfcol
+  {D(){0,0}  > {\SplitList { , } } m O{\rowsep}}
+  {
+    \ifdefined\feyncolumn
+      \begin{scope}[shift={($(scope1.south east)+(\colsep,0)+(#1)$)}, node distance=#3, local bounding box = scope1,]
+      \coordinate (o) at (0,-#3);
+      \def\lastnode{o}
+    \else
+    \begin{scope}[local bounding box = scope1, node distance=#3]
+      \coordinate (o) at (0,-#3);
+      \def\lastnode{o}
+    \fi
+    \ProcessList{#2} {\tfnodeleft}
+    
+    \end{scope}
+    \def\feyncolumn{y}
+  }
+
+\makeatletter
+\long\def\ifnodedefined#1#2#3{%
+    \@ifundefined{pgf@sh@ns@#1}{#3}{#2}%
+}
+\makeatother
+
+\DeclareDocumentCommand \tf {O{} m O{o}}
+  {%
+    \def\inverts{0}
+    \def\tfinitial{0}
+    \def\tffinal{0}
+    \xdef\destroylist{}
+
+      %%% Count the number of intermediate vertices
+       \ifdefined\theslen\setcounter{slen}{0}
+       \else \newcounter{slen}
+       \fi
+       \def\Sequence{#2}
+       \foreach \x in  \Sequence {%
+         \stepcounter{slen}
+       }
+       \xdef\inverts{\value{slen}}
+      %%%
+
+       %%% Define macros for the start and end of the path
+      \ifdefined\theinv\setcounter{inv}{0}
+       \else \newcounter{inv}
+       \fi
+       \def\tfinitial{o}
+       \def\tffinal{o}
+       \foreach \x in  \Sequence {%
+         \stepcounter{inv}
+         \ifthenelse{\equal{\value{inv}}{1}}{\xdef\tfinitial{\x}}
+         {
+           \ifthenelse{\equal{\value{inv}}{\value{slen}}}
+           {
+             \xdef\tffinal{\x}
+           }
+           {
+           }
+         }
+       }
+       \makeatletter
+       %%% Need to make the new nodes on the fly
+       \def\mod{(0,0)}
+       \ifdefined\theinv\setcounter{inv}{0}
+       \else \newcounter{inv}
+       \fi
+       \foreach \x in  \Sequence {%
+         \stepcounter{inv}
+         %%% We don't want to make new nodes if they've already been declared
+         \ifnodedefined{\x}{\xdef\destroylist{\x, \destroylist}}{
+         %%% Look at the positioning command, if there is one
+          \ifdefined\theop\setcounter{op}{1}
+          \else \newcounter{op}
+          \fi
+          \foreach \y in  #3 {%
+            \stepcounter{op}
+            \ifthenelse{\equal{\value{inv}}{\value{op}}}{
+              %%% Choose how to modify the vertex position
+              \ifthenelse{\equal{\y}{u}}{\xdef\mod{(0,\yintsep)}}{}
+              \ifthenelse{\equal{\y}{d}}{\xdef\mod{(0,-\yintsep)}}{}
+              \ifthenelse{\equal{\y}{r}}{\xdef\mod{(\intsep,0)}}{}
+              \ifthenelse{\equal{\y}{l}}{\xdef\mod{(-\intsep,0)}}{}
+            }{}
+          }
+         \ifthenelse{\equal{\value{inv}}{1}}{}
+         {
+           \ifthenelse{\equal{\value{inv}}{\value{slen}}}
+           {}
+           {
+             \pgfmathsetmacro\denom{\value{slen}-1}
+             \pgfmathsetmacro\nom{\value{inv}-1}
+            \draw ( $(\tfinitial)!\nom/\denom!(\tffinal)$ )+\mod node (\x) {};
+            \xdef\destroylist{\x, \destroylist}
+           }
+         }
+         }
+         }
+         \makeatother
+
+       %%% Now draw the path, noting that we don't 
+       %%% need to process the start or end points
+       \ifdefined\theinv\setcounter{inv}{0}
+       \else \newcounter{inv}
+       \fi
+        \foreach \x in  \Sequence {%
+          \stepcounter{inv}
+
+          %%% Skip the first
+          \ifdefined\lastvertex
+                \draw [#1] (\lastvertex.center) to (\x.center);
+          \fi
+          \xdef\lastvertex{\x}
+        }
+        \let\lastvertex\undefined
+    }
+
+\pgfdeclaredecoration{complete sines old}{initial}
+{
+    \state{initial}[
+        width=+0pt,
+        next state=sine,
+        persistent precomputation={\pgfmathsetmacro\matchinglength{
+            \pgfdecoratedinputsegmentlength / int(\pgfdecoratedinputsegmentlength/\pgfdecorationsegmentlength)}
+            \setlength{\pgfdecorationsegmentlength}{\matchinglength pt}
+        }] {}
+    \state{sine}[width=\pgfdecorationsegmentlength]{
+        \pgfpathsine{\pgfpoint{0.25\pgfdecorationsegmentlength}{0.5\pgfdecorationsegmentamplitude}}
+        \pgfpathcosine{\pgfpoint{0.25\pgfdecorationsegmentlength}{-0.5\pgfdecorationsegmentamplitude}}
+        \pgfpathsine{\pgfpoint{0.25\pgfdecorationsegmentlength}{-0.5\pgfdecorationsegmentamplitude}}
+        \pgfpathcosine{\pgfpoint{0.25\pgfdecorationsegmentlength}{0.5\pgfdecorationsegmentamplitude}}
+}
+    \state{final}{}
+}
+
+
+
+\tikzset{/pgf/decoration/.cd,
+    number of sines/.initial=10,
+    angle step/.initial=17,
+}
+\newdimen\tmpdimen
+\pgfdeclaredecoration{completed sines}{initial}
+{
+    \state{initial}[
+        width=+0pt,
+        next state=move,
+        persistent precomputation={
+            \pgfmathparse{\pgfkeysvalueof{/pgf/decoration/angle step}}%
+            \let\anglestep=\pgfmathresult%
+            \let\currentangle=\pgfmathresult%
+            % \pgfmathsetlengthmacro{\pointsperanglestep}%
+            %     {(\pgfdecoratedremainingdistance/\pgfkeysvalueof{/pgf/decoration/number of sines})/360*\anglestep}%
+        %
+            \pgfmathsetlengthmacro{\pointsperanglestep}{0.3}%
+            }] {}
+    \state{move}[width=+\pointsperanglestep, next state=draw]{
+        \pgfpathmoveto{\pgfpointorigin}
+    }
+    \state{draw}[width=+\pointsperanglestep, switch if less than=1.5*\pointsperanglestep to final, % <- bit of a hack
+        persistent postcomputation={
+        \pgfmathparse{mod(\currentangle+\anglestep, 360)}%
+        \let\currentangle=\pgfmathresult%
+    }]{%
+        \pgfmathsin{+\currentangle}%
+        \tmpdimen=\pgfdecorationsegmentamplitude%
+        \tmpdimen=\pgfmathresult\tmpdimen%
+        \divide\tmpdimen by2\relax%
+        \pgfpathlineto{\pgfqpoint{0pt}{\tmpdimen}}%
+    }
+    \state{final}{
+        \ifdim\pgfdecoratedremainingdistance>0pt\relax
+            \pgfpathlineto{\pgfpointdecoratedpathlast}
+        \fi
+   }
+}
+
+
+\DeclareDocumentEnvironment{tfeyn}{O{2cm}O{0.5cm}O{0.7cm}O{0.3cm}}%
+{%
+
+  \let\lastvertex\undefined
+  \begin{tikzpicture}[]
+  \def\colsep{#1}
+  \def\rowsep{#2}
+  \xdef\intsep{#3}
+  \xdef\yintsep{#4}
+}
+{%
+    \relax\colsep
+  \relax\rowsep
+  \relax\intsep
+  \relax\yintsep
+  \let\lastvertex\undefined
+  \end{tikzpicture}
+  \aeundefinethesenodes{\destroylist}
+
+}
+\DeclareDocumentEnvironment{tfeynin}{O{2em}O{1ex}O{0.6em}O{0.3em}}%
+{%
+  \tikzset{
+    fermion/.style={
+        decoration={
+            markings,
+            mark=at position 0.5 with {\node[scale=0.5, transform shape, xshift=-0.5mm, fill=black, inner sep=1pt, draw, isosceles triangle]{};}
+        },
+        postaction=decorate
+    },
+    f/.style={
+      fermion
+    },
+  }
+  \let\lastvertex\undefined
+  \begin{tikzpicture}[y=1em, x=1em, baseline={($(current bounding box.south east)+(-5em, 0.9ex)$)}]
+  \def\colsep{#1}
+  \def\rowsep{#2}
+  \xdef\intsep{#3}
+  \xdef\yintsep{#4}
+}
+{%
+    \relax\colsep
+  \relax\rowsep
+  \relax\intsep
+  \relax\yintsep
+  \let\lastvertex\undefined
+  \end{tikzpicture}
+  \aeundefinethesenodes{\destroylist}
+}
+
+
