@@ -1,4 +1,4 @@
-
+\ProvidesPackage{tikz-feyn}
 \usepackage{ifthen}
 
 \usepackage{tikz}
@@ -68,6 +68,10 @@
     },
     left/.style={
         bend left=90,
+        looseness=1.75
+    },
+    right/.style={
+        bend right=90,
         looseness=1.75
     },
     loop/.style={
@@ -302,6 +306,36 @@
   \end{tikzpicture}
   \aeundefinethesenodes{\destroylist}
 
+}
+\DeclareDocumentEnvironment{tfeynma}{O{2em}O{1ex}O{0.6em}O{0.3em}}%
+{%
+  \tikzset{
+    fermion/.style={
+        decoration={
+            markings,
+            mark=at position 0.5 with {\node[scale=0.5, transform shape, xshift=-0.5mm, fill=black, inner sep=1pt, draw, isosceles triangle]{};}
+        },
+        postaction=decorate
+    },
+    f/.style={
+      fermion
+    },
+  }
+  \let\lastvertex\undefined
+  \begin{tikzpicture}[y=1em, x=1em, baseline={($(current bounding box.south east)+(-5em, 1.4ex)$)}]
+  \def\colsep{#1}
+  \def\rowsep{#2}
+  \xdef\intsep{#3}
+  \xdef\yintsep{#4}
+}
+{%
+    \relax\colsep
+  \relax\rowsep
+  \relax\intsep
+  \relax\yintsep
+  \let\lastvertex\undefined
+  \end{tikzpicture}
+  \aeundefinethesenodes{\destroylist}
 }
 \DeclareDocumentEnvironment{tfeynin}{O{2em}O{1ex}O{0.6em}O{0.3em}}%
 {%

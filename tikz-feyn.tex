@@ -1,0 +1,101 @@
+\documentclass{article}
+
+\usepackage{tikz-feyn}
+\usepackage{lipsum}
+\begin{document}
+
+\begin{tfeyn}[1cm][1cm]
+  \tfcol{i1, i2}[1cm]
+  \tfcol(0,0.25cm){v1, v2}[0.5cm]
+  \tfcol(0,-0.5cm){o1, o2}[1.5cm]
+
+  \tf[fermion]{i1,v1,o2}
+  \tf[fermion]{i2,v2,o1}
+  \tf[photon]{v1,v2}
+
+\end{tfeyn}
+
+\begin{tfeyn}[]
+  \def\colsep{1cm}
+  \let\lastvertex\undefined
+  \tfcol{i1, i2}[1cm]
+  \tfcol(0, 0.3cm){v1, v2}[0.3cm]
+  \tfcol(0, -0.3cm){o1, o2}[1cm]
+  %\tfcol(0,0.25cm){v1, v2}[0.5cm]
+  %\tfcol(0,-0.5cm){o1, o2}[1.5cm]
+
+  \tf[f]{i2,v4,v2}
+  \tf[f]{v2,v6,o2}
+  \tf[p,l]{v4,v6}
+  \tf[p]{v2,v1}
+  \tf[f]{i1,v1,o1}
+  %\tf[fermion]{i2,v2,o1}
+  %\tf[photon]{v1,v2}
+
+\end{tfeyn}
+
+\begin{tfeyn}[]
+  \def\colsep{1cm}
+  \let\lastvertex\undefined
+  \tfcol{i}[1cm]
+  \tfcol{o}
+
+  \tf[p]{i,o}
+  \tf[f,l]{i,o}
+  \tf[f,l]{o,i}
+
+\end{tfeyn}
+
+\begin{tfeyn}[]
+  %\def\colsep{1cm}
+  \let\lastvertex\undefined
+  \tfcol{i}[1cm]
+  \tfcol{o}
+
+  \tf[p,l, looseness=1]{i,o}
+  \tf[p,l, looseness=1]{o,i}
+  \tf[f,l]{i,o}
+  \tf[f,l]{o,i}
+
+\end{tfeyn}
+
+\begin{tfeyn}[1cm]
+  \let\lastvertex\undefined
+  \tfcol{i1, i2}[1cm]
+  \tfcol(0, 0.3cm){v1, v2}[0.3cm]
+  \tfcol(0, -0.3cm){o1, o2}[1cm]
+  %\tfcol(0,0.25cm){v1, v2}[0.5cm]
+  %\tfcol(0,-0.5cm){o1, o2}[1.5cm]
+
+  \tf[f]{i2,v4,v2}
+  \tf[f]{v2,v6,o2}
+  \tf[p,l]{v4,v6}
+  \tf[p]{v2,v1}
+  \tf[f]{i1,v1,o1}
+  %\tf[fermion]{i2,v2,o1}
+  %\tf[photon]{v1,v2}
+
+
+\end{tfeyn}
+
+\begin{tfeyn}
+  \tfcol{a1, a2}
+  \tfcol{b1, b2}
+  \tf[f]{a1,c1,a2}[r]
+  \tf[f]{b1,c3,b2}[l]
+  \tf[p]{c1, c3}
+  %\draw [red] (c2.center)to (c2.south east) to [loop] (c2.south west) to (c2.center);
+\end{tfeyn}
+
+ The writing is on the wall.The writing is on the wall.The writing is on the wall.The writing is on the wall.The writing is on the wall.The writing is on the wall.The writing is on the wall.The writing is on the wall.The writing is on the wall.The writing is on the wall.The writing is on the wall.The writing is on the wall.The writing is on the wall.The writing is on the wall.The writing is on the wall.The writing is on the wall.The writing is on the wall.The writing is on the wall.
+The writing is on the wall.
+\begin{tfeynin}
+  \tfcol{a1, a2}
+  \tfcol{b1, b2}
+  \tf[f]{a1,d1,a2}[r]
+  \tf[f]{b1,c2,b2}[l]
+  \tf[p]{d1,c2}
+\end{tfeynin}
+And that writing is a Feynman diagram.
+
+\end{document}
