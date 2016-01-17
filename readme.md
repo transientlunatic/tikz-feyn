@@ -13,6 +13,12 @@ I originally created this package to make typing notes for a quantum
 field theory class easier (read I was procrastinating), but now it's
 there for the whole world to use, 
 
+Requirements
+============
+
+You'll need the `tikz`, `xparse`, and `ifthen` packages for LaTeX, all
+of which are available in texlive.
+
 
 Usage
 =====
