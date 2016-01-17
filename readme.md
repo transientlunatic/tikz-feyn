@@ -19,11 +19,10 @@ being used in part of a diagram, for example
 ![example1](https://raw.github.com/transientlunatic/tikz-feyn/docs/feyn1.png)
 + `tfeynin` produces inline Feynman diagrams which can be inserted
 into text, or into an equation, for example
-![example2](https://raw.github.com/transientlunatic/tikz-feyn/docs/feyn5.png)
-
+![example2](https://raw.githubusercontent.com/transientlunatic/tikz-feyn/develop/docs/feyn5.png)
 In the current implementation of Tikz-feyn each Feynman diagram is
 composed of a number of columns. For example,
-![example1](https://raw.github.com/transientlunatic/tikz-feyn/docs/feyn4.png)
+![example1](https://raw.githubusercontent.com/transientlunatic/tikz-feyn/develop/docs/feyn4.png)
 contains three columns. We construct a column using the `\tfcol` macro:
 
 ```tex
