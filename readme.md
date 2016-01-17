@@ -104,7 +104,8 @@ and if necessary, it can be customised by adding a `looseness` key:
 \tf[p,l, looseness=1]{i,o}
 ```
 
-which adjusts the circularity of the arc. For an extreme example, take a diagram composed only or arcs:
+which adjusts the circularity of the arc. For an extreme example, take
+a diagram composed only loops and arcs:
 
 ```tex
 \begin{tfeyn}
@@ -137,15 +138,15 @@ Each particle in a Feynman diagram is represented as an edge, and in
 Tikz-feyn, each particle is created by styling an edge. The following
 styles are available:
 
-| Particle        | Style name(s)        | Example     | Image |
-| --------------- |:--------------------:|:----------- | ------|
-| Photon          | p, photon            | \tf[p]{i,o} |       |
-| W Boson         | w, wboson            | \tf[w]{i,o} |       |
-| Z Boson         | z, zboson            | \tf[z]{i,o} |       |
-| Higgs Boson     | h, higgs             | \tf[h]{i,o} |       |
-| Gluon           | g, gluon             | \tf[g]{i,o} |       |
-| Graviton        | G, graviton          | \tf[G]{i,o} |       |
-| Fermion         | f, fermion           | \tf[f]{i,o} |       |
+| Particle        | Style name(s)        | Example       | Image |
+| --------------- |:--------------------:|:------------- | ------|
+| Photon          | p, photon            | `\tf[p]{i,o}` |       |
+| W Boson         | w, wboson            | `\tf[w]{i,o}` |       |
+| Z Boson         | z, zboson            | `\tf[z]{i,o}` |       |
+| Higgs Boson     | h, higgs             | `\tf[h]{i,o}` |       |
+| Gluon           | g, gluon             | `\tf[g]{i,o}` |       |
+| Graviton        | G, graviton          | `\tf[G]{i,o}` |       |
+| Fermion         | f, fermion           | `\tf[f]{i,o}` |       |
 
 It should be fairly easy to implement your own style if you want to
 add some esoteric particle I don't know about!
