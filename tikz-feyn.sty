@@ -82,7 +82,7 @@
     },
     sl/.style={
     },
-    vertex/.style={draw,shape=circle,fill=black,minimum size=3pt,inner sep=0pt},
+    vertex/.style={draw,shape=circle,fill=black,minimum size=2pt,inner sep=0pt},
   }
 
 
@@ -248,7 +248,7 @@
 
 \tikzset{/pgf/decoration/.cd,
     number of sines/.initial=10,
-    angle step/.initial=17,
+    angle step/.initial=25,
 }
 \newdimen\tmpdimen
 \pgfdeclaredecoration{completed sines}{initial}
@@ -263,7 +263,7 @@
             % \pgfmathsetlengthmacro{\pointsperanglestep}%
             %     {(\pgfdecoratedremainingdistance/\pgfkeysvalueof{/pgf/decoration/number of sines})/360*\anglestep}%
         %
-            \pgfmathsetlengthmacro{\pointsperanglestep}{0.3}%
+            \pgfmathsetlengthmacro{\pointsperanglestep}{0.31}%
             }] {}
     \state{move}[width=+\pointsperanglestep, next state=draw]{
         \pgfpathmoveto{\pgfpointorigin}
@@ -322,7 +322,7 @@
     },
   }
   \let\lastvertex\undefined
-  \begin{tikzpicture}[y=1em, x=1em, baseline={($(current bounding box.south east)+(-5em, 1.4ex)$)}]
+  \begin{tikzpicture}[y=1ex, x=1em, baseline={($(current bounding box.south east)+(-5em, 1.4ex)$)}]
   \def\colsep{#1}
   \def\rowsep{#2}
   \xdef\intsep{#3}
@@ -337,13 +337,13 @@
   \end{tikzpicture}
   \aeundefinethesenodes{\destroylist}
 }
-\DeclareDocumentEnvironment{tfeynin}{O{2em}O{1ex}O{0.6em}O{0.3em}}%
+\DeclareDocumentEnvironment{tfeynin}{O{2em}O{0.1ex}O{0.6em}O{0.05ex}}%
 {%
   \tikzset{
     fermion/.style={
         decoration={
             markings,
-            mark=at position 0.5 with {\node[scale=0.5, transform shape, xshift=-0.5mm, fill=black, inner sep=1pt, draw, isosceles triangle]{};}
+            mark=at position 0.5 with {\node[scale=0.4, transform shape, xshift=-0.5mm, fill=black, inner sep=1pt, draw, isosceles triangle]{};}
         },
         postaction=decorate
     },
@@ -366,6 +366,7 @@
   \let\lastvertex\undefined
   \end{tikzpicture}
   \aeundefinethesenodes{\destroylist}
+  \hskip -1.1em
 }
 
 
