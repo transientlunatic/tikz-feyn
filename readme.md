@@ -32,7 +32,7 @@ A Feynman diagram can be constructed in one of two environments:
 
 + `tfeyn` produces display-style-like diagrams, which are suitable for
 being used in part of a diagram, for example
-![example1](https://raw.githubusercontent.com/transientlunatic/tikz-feyn/docs/develop/feyn1.png)
+![example1](https://raw.githubusercontent.com/transientlunatic/tikz-feyn/develop/docs/feyn1.png)
 + `tfeynin` produces inline Feynman diagrams which can be inserted
 into text, or into an equation, for example
 ![example2](https://raw.githubusercontent.com/transientlunatic/tikz-feyn/develop/docs/feyn5.png)
@@ -126,7 +126,7 @@ a diagram composed only loops and arcs:
 
 which produces the output
 
-![example2](https://raw.githubusercontent.com/transientlunatic/tikz-feyn/develop/docs/feyn3.png)
+![example2](https://raw.githubusercontent.com/transientlunatic/tikz-feyn/develop/docs/feyn4.png)
 
 Any TikZ style can be applied to any vertex, so to make a red photon
 just write
